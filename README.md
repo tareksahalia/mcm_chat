@@ -72,29 +72,36 @@ flowchart TB
 - 16GB RAM minimum
 - GPU with 24GB VRAM for LLaMA
 
-## Flow Char Diagram
+## Future Release Diagram
 ```mermaid
 flowchart TB
     subgraph Frontend
         UI[Angular UI]
+        WS[WebSocket Service]
     end
     
     subgraph Backend
         API[FastAPI Server]
-        PM[Prompt Manager]
-        LLM[LLaMA 3.1]
-        KB[MongoDB]
+        LLM[Local LLM Service]
+        KB[Knowledge Base]
+        Cache[Redis Cache]
     end
     
-    subgraph DataSync
-        Sync[Sync Service]
-        ModuleDBs[Module DBs]
+    UI --> WS
+    WS --> API
+    API --> LLM
+    LLM --> KB
+    API --> Cache
+    
+    subgraph LLM Components
+        LLM --> Mistral[Mistral-7B]
+        LLM --> VLLM[vLLM Inference]
+        LLM --> CT[Context Transformer]
     end
     
-    UI --> API
-    API --> KB
-    KB --> PM
-    PM --> LLM
-    ModuleDBs --> Sync
-    Sync --> KB
+    subgraph Knowledge Components
+        KB --> VS[Vector Store]
+        KB --> RC[RAG Controller]
+        KB --> Doc[Document Processor]
+    end
 ```
