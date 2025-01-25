@@ -1,78 +1,53 @@
-# MCMind v1 Technical Design Document
+# MCMind MVP Technical Design
 
 ## Overview
 MCMind is a conversational AI system designed to assist healthcare professionals by providing context-aware responses based on patient data across multiple modules.
 
-## System Architecture
+An AI-powered medical chat system using Mistral-7B for patient-doctor interactions.
 
-### Components
-1. **Frontend (Angular)**
-   - Simple chat interface
-   - Patient selector
-   - Session management
+## Architecture
 
-2. **Backend (FastAPI)**
-   - RESTful API endpoints
-   - Patient data retrieval
-   - LLM integration
-   - Authentication handling
-
-3. **LLM Service**
-   - Model: LLaMA 3.1
-   - Prompt management
-   - Context handling
-   - Response generation
-
-4. **Knowledge Base (MongoDB)**
-   - Patient data storage
-   - Medical records
-   - Visit history
-   - Flexible document schema
-
-5. **Data Sync Service**
-   - Periodic data collection
-   - Module data integration
-   - Data transformation
-
-## Data Flow
-1. User selects patient in Gradio UI
-2. FastAPI retrieves patient data from MongoDB
-3. Prompt Manager formats context + query
-4. LLaMA processes prompt and generates response
-5. Response returned through API to UI
-
-## Technical Specifications
-
-### Database Schema
-```javascript
-{
-  patientId: String,
-  ## (Consultation, HSM, LAB, ...)
-  visits: [{
-    date: Date,
-    type: String,
-    notes: String,
-    vitalSigns: Object,
-    medications: Array,
-    payments: Array
-    ### ....
-  }],
-  demographics: {
-    age: Number,
-    gender: String,
-    history: Object
-  }
-}
+```mermaid
+flowchart TB
+    subgraph Frontend
+        UI[Angular UI]
+        WS[WebSocket Service]
+    end
+    
+    subgraph Backend
+        API[FastAPI Server]
+        LLM[Local LLM Service]
+    end
+    
+    UI --> WS
+    WS --> API
+    API --> LLM
+    
+    subgraph LLM Components
+        LLM --> Mistral[Mistral-7B]
+        LLM --> PT[Prompt Template]
+    end
 ```
 
-### API Endpoints
-```python
-POST /api/chat
-GET /api/patient/{id}
-POST /api/sync
-GET /api/health
-```
+## Features
+- Real-time chat interface
+- Patient demographics integration
+- Medical visit history tracking
+- Doctor specialty context
+- WebSocket communication
+- Local LLM inference
 
+## Tech Stack
+- Frontend: Angular 19+
+- Backend: FastAPI
+- LLM: Mistral-7B
+- Communication: WebSocket
+
+## Prerequisites
+- Python 3.10+
+- Node.js 18+
+- CUDA-capable GPU (8GB+ VRAM)
+- 16GB+ RAM
 ### LLM Configuration
 - Context window: 4096 tokens
 - Temperature: 0.7
