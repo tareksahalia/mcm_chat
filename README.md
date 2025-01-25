@@ -29,6 +29,35 @@ flowchart TB
     end
 ```
 
+## Project Structure 
+```
+medical-chat/
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── v1/
+│   │   │   └── ws/
+│   │   ├── core/
+│   │   │   ├── llm/
+│   │   │   └── config/
+│   │   ├── models/
+│   │   └── utils/
+│   ├── requirements.txt
+│   └── main.py
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── core/
+│   │   │   ├── shared/
+│   │   │   ├── features/
+│   │   │   └── store/
+│   │   ├── assets/
+│   │   └── environments/
+│   └── package.json
+├── environment.yml
+└── README.md
+```
+
 ## Features
 - Real-time chat interface
 - Patient demographics integration
