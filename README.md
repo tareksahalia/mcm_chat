@@ -1,7 +1,7 @@
-# MCMind MVP Technical Design
+# MCM-GPT MVP Technical Design
 
 ## Overview
-MCMind is a conversational AI system designed to assist healthcare professionals by providing context-aware responses based on patient data across multiple modules.
+MCM-GPT is a conversational AI system designed to assist healthcare professionals by providing context-aware responses based on patient data across multiple modules.
 
 An AI-powered medical chat system using Mistral-7B for patient-doctor interactions.
 
@@ -31,7 +31,7 @@ flowchart TB
 
 ## Project Structure 
 ```
-medical-chat/
+root/
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -61,20 +61,21 @@ medical-chat/
 ## Features
 - Real-time chat interface
 - Patient demographics integration
+- Access and summarize patient records
+- Provide quick access to lab results and imaging studies
 - Medical visit history tracking
 - Doctor specialty context
-- WebSocket communication
-- Local LLM inference
+- Help with hospital resource management
 
 ## Tech Stack
 - Frontend: Angular 19+
-- Backend: FastAPI
-- LLM: Mistral-7B
+- Backend rest-api: FastAPI
+- LLM: Mistral-7B / Llama 3.1 
 - Communication: WebSocket
 
 ## Prerequisites
+- NPM and Angular 19+
 - Python 3.10+
-- Node.js 18+
 - CUDA-capable GPU (8GB+ VRAM)
 - 16GB+ RAM
 ### LLM Configuration
@@ -83,23 +84,91 @@ medical-chat/
 - Top-p: 0.9
 - Max response length: 2048 tokens
 
-## Implementation Timeline
-- Week 1-2: Basic infrastructure setup
-- Week 3-4: Data sync implementation
-- Week 5-6: LLM integration
-- Week 7-8: UI development and testing
+## Setup and Installation
 
-## Future Enhancements
-1. Vector store for semantic search
-2. RAG implementation
-3. Response caching
-4. Advanced context management
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd mcm-gpt
+```
 
-## System Requirements
-- Python 3.10+
-- MongoDB 6.0+
-- 16GB RAM minimum
-- GPU with 24GB VRAM for LLaMA
+2. Create and activate the conda environment:
+```bash
+conda env create -f environment.yml
+conda activate mcm-gpt
+```
+
+3. Install backend dependencies:
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+4. Install frontend dependencies:
+```bash
+cd ../frontend
+npm install
+```
+
+## Configuration
+
+1. Set up environment variables:
+```bash
+# Backend configuration
+MODEL_NAME=meta-llama/Llama-3.2-3B-Instruct
+MAX_TOKENS=512
+TEMPERATURE=0.7
+TOP_P=0.95
+```
+
+2. Configure system message in `prompts.py`
+
+## Running the Application
+
+1. Start the backend server:
+```bash
+cd backend
+python main.py
+```
+
+2. In a new terminal, start the frontend:
+```bash
+cd frontend
+npm start
+```
+
+
+
+## Development Roadmap
+
+1. **Phase 1: Basic Integration** (Current)
+   - Gradio chat interface
+   - Hugging Face model integration
+   - Basic prompt engineering
+
+2. **Phase 2: Architecture Migration**
+   - Switch to Angular frontend
+   - Implement FastAPI backend
+   - Add WebSocket support
+   - Local Mistral-7B integration
+
+3. **Phase 3: Advanced Features**
+   - RAG implementation
+   - Redis caching
+   - Document processing
+   - Context enhancement
+
+4. **Phase 4: MCM Integration**
+   - Module-specific connectors
+   - Data synchronization
+   - Security enhancements
+## Security and Compliance
+
+MCM-GPT is designed with healthcare security requirements in mind:
+- HIPAA compliance considerations
+- Secure data transmission
+- Access control
+- Audit logging
 
 ## Future Release Diagram
 ```mermaid
